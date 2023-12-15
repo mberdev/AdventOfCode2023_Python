@@ -12,9 +12,10 @@ def main():
     current_path = os.path.dirname(os.path.realpath(__file__))
     file_path = os.path.join(current_path, file_name)
     
-    lines = read_file(file_path)
-    filtered_lines = [line for line in lines if line is not None and line != ""]
-    print(filtered_lines)  # Display filtered_lines
+    lines = read_file(file_path, keep_empty_lines=True)
+    
+    for line in lines:
+        print(line)
 
 
 if __name__ == "__main__":
