@@ -55,63 +55,6 @@ def follow_directions_part1(directions: str, nodes: dict[str, Node]):
     return steps_count
 
 
-def all_end_in_Z(strings: list[str]) -> bool:
-    """Returns True if the last letter of all strings is 'Z', False otherwise."""
-    for string in strings:
-        if string[-1] != 'Z':
-            return False
-    return True
-
-def follow_directions_part2(directions: str, nodes: dict[str, Node]):
-    """Follows the given directions using the provided nodes."""
-    directions_cursor: int = 0
-    directions_length: int = len(directions)
-
-    steps_count: int = 0
-
-    # start with all the labels ending in 'A'
-    current_labels = [k for k in nodes.keys() if k[-1] == 'A']
-
-    current_direction = directions[directions_cursor]
-    current_nodes = get_nodes_by_labels(current_labels, nodes)
-
-    while ((not all_end_in_Z(current_labels)) and steps_count < 10000000):
-        
-        # Optional. For control.
-        # print ("current_label: ", current_label)
-        # print ("Going ", current_direction)
-
-        if (current_direction == 'L'):
-            current_labels = [get_left(node) for node in current_nodes]
-        elif (current_direction == 'R'):
-            current_labels = [get_right(node) for node in current_nodes]
-        else:
-            raise Exception("Invalid direction")
-        
-
-        # classic way of looping on a string
-        directions_cursor = (directions_cursor+1)%directions_length
-
-        # fetch next values
-        current_direction = directions[directions_cursor]
-        current_nodes = get_nodes_by_labels(current_labels, nodes)
-
-        steps_count += 1
-
-        if (steps_count % 1000 == 0):
-            print("steps_count: ", steps_count)
-            # print("current_labels: ", current_labels)
-
-    print("current_labels: ", current_labels)
-
-    if (steps_count >= 10000000):
-        raise Exception("Infinite loop detected")
-    
-    return steps_count
-
-def get_nodes_by_labels(labels, nodes):
-    return [nodes[key] for key in nodes.keys() if key in labels]
-
 
 
 
@@ -134,10 +77,12 @@ def main():
     nodes_definitions: list[str] = grouped[1]
     nodes_list = [parse_line(node_direction) for node_direction in nodes_definitions]  # Call parse on each node_direction in nodes_directions
     nodes_dict: dict[str,Node] = {node.label: node for node in nodes_list}  # Convert list to dict for "quick" (Python, lol) search
-    
-    
+
+
+
     # do "part 1" of the exercise
-    count: int = follow_directions_part2(directions, nodes_dict)
+    count: int = follow_directions_part1(directions, nodes_dict)
+
     print("Steps count: ", count)
     
      
